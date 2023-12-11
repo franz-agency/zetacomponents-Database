@@ -39,31 +39,27 @@ class ezcQuerySelectMssql extends ezcQuerySelect
     /**
      * If a limit and/or offset has been set for this query.
      *
-     * @var bool
      */
-    private $hasLimit = false;
+    private bool $hasLimit = false;
 
     /**
      * The limit set.
      *
-     * @var int
      */
-    private $limit = 0;
+    private int $limit = 0;
 
     /**
      * The offset set.
      *
-     * @var int
      */
-    private $offset = 0;
+    private int $offset = 0;
 
     /**
      * Same as ezcQuerySelect::$orderString but inverted
      * for use in the LIMIT functionality.
      *
-     * @var string
      */
-    private $invertedOrderString = null;
+    private ?string $invertedOrderString = null;
 
     /**
      * Resets the query object for reuse.
@@ -75,7 +71,7 @@ class ezcQuerySelectMssql extends ezcQuerySelect
         $this->hasLimit = false;
         $this->limit = 0;
         $this->offset = 0;
-        $this->orderColumns = array();
+        $this->orderColumns = [];
         parent::reset();
     }
 

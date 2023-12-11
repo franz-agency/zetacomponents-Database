@@ -41,10 +41,7 @@ class ezcDbHandlerMysql extends ezcDbHandler
      *
      * @var string
      */
-    protected $identifierQuoteChars = array(
-        "start" => '`',
-        "end"   => '`',
-    );
+    protected $identifierQuoteChars = ["start" => '`', "end"   => '`'];
 
     /**
      * Constructs a handler object from the parameters $dbParams.
@@ -147,7 +144,7 @@ class ezcDbHandlerMysql extends ezcDbHandler
      */
     static public function hasFeature( $feature )
     {
-        $supportedFeatures = array( 'multi-table-delete', 'cross-table-update' );
+        $supportedFeatures = ['multi-table-delete', 'cross-table-update'];
         return in_array( $feature, $supportedFeatures );
     }
 

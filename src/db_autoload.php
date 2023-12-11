@@ -25,7 +25,7 @@
  * @package Database
  */
 
-return array(
+return [
     'ezcDbException'                 => 'Database/exceptions/exception.php',
     'ezcDbHandlerNotFoundException'  => 'Database/exceptions/handler_not_found.php',
     'ezcDbMissingParameterException' => 'Database/exceptions/missing_parameter.php',
@@ -44,5 +44,5 @@ return array(
     'ezcDbUtilitiesOracle'           => 'Database/sqlabstraction/implementations/utilities_oracle.php',
     'ezcDbUtilitiesPgsql'            => 'Database/sqlabstraction/implementations/utilities_pgsql.php',
     'ezcDbUtilitiesSqlite'           => 'Database/sqlabstraction/implementations/utilities_sqlite.php',
-);
+];
 ?>

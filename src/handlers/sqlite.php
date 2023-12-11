@@ -82,13 +82,13 @@ class ezcDbHandlerSqlite extends ezcDbHandler
         parent::__construct( $dbParams, $dsn );
 
         /* Register PHP implementations of missing functions in SQLite */
-        $this->sqliteCreateFunction( 'md5', array( 'ezcQuerySqliteFunctions', 'md5Impl' ), 1 );
-        $this->sqliteCreateFunction( 'mod', array( 'ezcQuerySqliteFunctions', 'modImpl' ), 2 );
-        $this->sqliteCreateFunction( 'locate', array( 'ezcQuerySqliteFunctions', 'positionImpl' ), 2 );
-        $this->sqliteCreateFunction( 'floor', array( 'ezcQuerySqliteFunctions', 'floorImpl' ), 1 );
-        $this->sqliteCreateFunction( 'ceil', array( 'ezcQuerySqliteFunctions', 'ceilImpl' ), 1 );
-        $this->sqliteCreateFunction( 'concat', array( 'ezcQuerySqliteFunctions', 'concatImpl' ) );
-        $this->sqliteCreateFunction( 'toUnixTimestamp', array( 'ezcQuerySqliteFunctions', 'toUnixTimestampImpl' ), 1 );
+        $this->sqliteCreateFunction( 'md5', ['ezcQuerySqliteFunctions', 'md5Impl'], 1 );
+        $this->sqliteCreateFunction( 'mod', ['ezcQuerySqliteFunctions', 'modImpl'], 2 );
+        $this->sqliteCreateFunction( 'locate', ['ezcQuerySqliteFunctions', 'positionImpl'], 2 );
+        $this->sqliteCreateFunction( 'floor', ['ezcQuerySqliteFunctions', 'floorImpl'], 1 );
+        $this->sqliteCreateFunction( 'ceil', ['ezcQuerySqliteFunctions', 'ceilImpl'], 1 );
+        $this->sqliteCreateFunction( 'concat', ['ezcQuerySqliteFunctions', 'concatImpl'] );
+        $this->sqliteCreateFunction( 'toUnixTimestamp', ['ezcQuerySqliteFunctions', 'toUnixTimestampImpl'], 1 );
         $this->sqliteCreateFunction( 'now', 'time', 0 );
     }
 
@@ -112,7 +112,7 @@ class ezcDbHandlerSqlite extends ezcDbHandler
      */
     static public function hasFeature( $feature )
     {
-        $supportedFeatures = array( 'multi-table-delete', 'cross-table-update' );
+        $supportedFeatures = ['multi-table-delete', 'cross-table-update'];
         return in_array( $feature, $supportedFeatures );
     }
 

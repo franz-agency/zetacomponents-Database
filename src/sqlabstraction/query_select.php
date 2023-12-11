@@ -64,12 +64,12 @@ class ezcQuerySelect extends ezcQuery
     /**
      * Sort the result ascending.
      */
-    const ASC = 'ASC';
+    final public const ASC = 'ASC';
 
     /**
      * Sort the result descending.
      */
-    const DESC = 'DESC';
+    final public const DESC = 'DESC';
 
     /**
      * Stores the SELECT part of the SQL.
@@ -139,7 +139,7 @@ class ezcQuerySelect extends ezcQuery
      * @param PDO $db a pointer to the database object.
      * @param array(string=>string) $aliases
      */
-    public function __construct( PDO $db, array $aliases = array() )
+    public function __construct( PDO $db, array $aliases = [] )
     {
         parent::__construct( $db, $aliases );
     }
@@ -286,7 +286,7 @@ class ezcQuerySelect extends ezcQuery
         {
             $this->selectString = 'SELECT DISTINCT ';
         }
-        elseif ( strpos ( $this->selectString, 'DISTINCT' ) === false )
+        elseif ( !str_contains ( $this->selectString, 'DISTINCT' ) )
         {
             throw new ezcQueryInvalidException(
                 'SELECT',
@@ -297,7 +297,7 @@ class ezcQuerySelect extends ezcQuery
         // Call ezcQuerySelect::select() to do the parameter processing
         $args = func_get_args();
         return call_user_func_array(
-            array( $this, 'select' ),
+            $this->select(...),
             $args
         );
     }
@@ -509,7 +509,7 @@ class ezcQuerySelect extends ezcQuery
     {
         $args = func_get_args();
         array_unshift( $args, 'inner' );
-        return call_user_func_array( array( $this, 'doJoin' ), $args );
+        return call_user_func_array( $this->doJoin(...), $args );
     }
 
     /**
@@ -568,7 +568,7 @@ class ezcQuerySelect extends ezcQuery
     {
         $args = func_get_args();
         array_unshift( $args, 'left' );
-        return call_user_func_array( array( $this, 'doJoin' ), $args );
+        return call_user_func_array( $this->doJoin(...), $args );
     }
 
     /**
@@ -627,7 +627,7 @@ class ezcQuerySelect extends ezcQuery
     {
         $args = func_get_args();
         array_unshift( $args, 'right' );
-        return call_user_func_array( array( $this, 'doJoin' ), $args );
+        return call_user_func_array( $this->doJoin(...), $args );
     }
 
     /**

@@ -62,7 +62,7 @@ class ezcQueryInsert extends ezcQuery
      * Format array('column'=>value)
      * @var array(string=>mixed)
      */
-    protected $values = array();
+    protected $values = [];
 
     /**
      * The target table for the insert query.
@@ -78,7 +78,7 @@ class ezcQueryInsert extends ezcQuery
      * @param PDO $db
      * @param array(string=>string) $aliases
      */
-    public function __construct( PDO $db, array $aliases = array() )
+    public function __construct( PDO $db, array $aliases = [] )
     {
         parent::__construct( $db, $aliases );
     }

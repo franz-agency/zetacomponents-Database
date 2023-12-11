@@ -39,14 +39,7 @@ class ezcQueryExpressionMssql extends ezcQueryExpression
      *
      * @var array(string=>string)
      */
-    protected $intervalMap = array(
-        'SECOND' => 'second',
-        'MINUTE' => 'minute',
-        'HOUR' => 'Hour',
-        'DAY' => 'Day',
-        'MONTH' => 'Month',
-        'YEAR' => 'Year',
-    );
+    protected $intervalMap = ['SECOND' => 'second', 'MINUTE' => 'minute', 'HOUR' => 'Hour', 'DAY' => 'Day', 'MONTH' => 'Month', 'YEAR' => 'Year'];
 
     /**
      * Returns the remainder of the division operation

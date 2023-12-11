@@ -45,14 +45,14 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
      * These arrays filled with values from parameters of rightJoin().
      * If from() was called then new right join info item added to $rightJoins.
      */
-    protected $rightJoins = array( null );
+    protected $rightJoins = [null];
 
     /**
      * Store tables that appear in FROM clause.
      *
      * Used for building fromString every time when it requested
      */
-    protected $fromTables = array();
+    protected $fromTables = [];
 
     /**
      * Constructs a new ezcQuerySelectSqlite object.
@@ -73,8 +73,8 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
     public function reset()
     {
         parent::reset();
-        $this->fromTables = array();
-        $this->rightJoins = array( null );
+        $this->fromTables = [];
+        $this->rightJoins = [null];
     }
 
     /**
@@ -155,7 +155,7 @@ class ezcQuerySelectSqlite extends ezcQuerySelect
      */
     private function buildRightJoins()
     {
-        $resultArray = array();
+        $resultArray = [];
 
         foreach ( $this->rightJoins as $rJoinPart )
         {

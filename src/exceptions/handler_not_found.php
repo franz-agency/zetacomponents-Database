@@ -41,7 +41,7 @@ class ezcDbHandlerNotFoundException extends ezcDbException
      * @param string $name
      * @param array(string) $known
      */
-    public function __construct( $name, array $known = array() )
+    public function __construct( $name, array $known = [] )
     {
         if ( $name == '' || $name == null )
         {

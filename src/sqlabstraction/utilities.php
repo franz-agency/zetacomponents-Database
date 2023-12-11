@@ -45,7 +45,6 @@ class ezcDbUtilities
     /**
      * Constructs a new db util using the db handler $db.
      *
-     * @param ezcDbHandler $db
      */
     public function __construct( ezcDbHandler $db )
     {
@@ -129,7 +128,7 @@ class ezcDbUtilities
     /**
      * Remove all tables from the database.
      */
-    public function cleanup()
+    public function cleanup(): never
     {
         throw new ezcDbException( "Not implemented" );
     }

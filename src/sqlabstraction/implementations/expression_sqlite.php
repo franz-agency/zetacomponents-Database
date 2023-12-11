@@ -41,14 +41,7 @@ class ezcQueryExpressionSqlite extends ezcQueryExpression
      *
      * @var array(string=>string)
      */
-    protected $intervalMap = array(
-        'SECOND' => 'seconds',
-        'MINUTE' => 'minutes',
-        'HOUR' => 'hours',
-        'DAY' => 'days',
-        'MONTH' => 'months',
-        'YEAR' => 'years',
-    );
+    protected $intervalMap = ['SECOND' => 'seconds', 'MINUTE' => 'minutes', 'HOUR' => 'hours', 'DAY' => 'days', 'MONTH' => 'months', 'YEAR' => 'years'];
 
     /**
      * Returns part of a string.

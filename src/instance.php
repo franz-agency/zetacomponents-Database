@@ -70,9 +70,8 @@ class ezcDbInstance
      * when you call get() without arguments.
      *
      * @see ezcDbInstance::get()
-     * @var string
      */
-    static private $DefaultInstanceIdentifier = false;
+    static private bool $DefaultInstanceIdentifier = false;
 
     /**
      * Holds the database instances.
@@ -86,7 +85,7 @@ class ezcDbInstance
      *
      * @var array(string=>ezcDbHandler)
      */
-    static private $Instances = array();
+    static private $Instances = [];
 
     /**
      * Returns the database instance $identifier.
@@ -139,7 +138,6 @@ class ezcDbInstance
      * If $identifier is specified the database instance can be
      * retrieved later using the same identifier.
      *
-     * @param ezcDbHandler $db
      * @param string $identifier the identifier of the database handler
      * @return void
      */
@@ -183,7 +181,7 @@ class ezcDbInstance
      */
     public static function reset()
     {
-        self::$Instances = array();
+        self::$Instances = [];
         self::resetDefault();
     }
 }

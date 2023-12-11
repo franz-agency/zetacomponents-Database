@@ -37,9 +37,8 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
     /**
      * Stores the PostgreSQL version number.
      *
-     * @var int
      */
-    private $version;
+    private readonly string $version;
 
     /**
      * Constructs an pgsql expression object using the db $db.
@@ -51,7 +50,7 @@ class ezcQueryExpressionPgsql extends ezcQueryExpression
         parent::__construct( $db );
 
         $version = $db->getAttribute( PDO::ATTR_SERVER_VERSION );
-        $this->version = substr( $version, 0, 1 );
+        $this->version = substr( (string) $version, 0, 1 );
     }
 
     /**

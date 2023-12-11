@@ -53,7 +53,7 @@ class ezcQueryExpression
      * Format: array('alias' => 'realName')
      * @var array(string=>string)
      */
-    private $aliases = null;
+    private ?array $aliases = null;
 
     /**
      * The flag that switch quoting mode for
@@ -68,22 +68,14 @@ class ezcQueryExpression
      *
      * @var array(string=>string)
      */
-    protected $intervalMap = array(
-        'SECOND' => 'SECOND',
-        'MINUTE' => 'MINUTE',
-        'HOUR' => 'HOUR',
-        'DAY' => 'DAY',
-        'MONTH' => 'MONTH',
-        'YEAR' => 'YEAR',
-    );
+    protected $intervalMap = ['SECOND' => 'SECOND', 'MINUTE' => 'MINUTE', 'HOUR' => 'HOUR', 'DAY' => 'DAY', 'MONTH' => 'MONTH', 'YEAR' => 'YEAR'];
 
     /**
      * Constructs an empty ezcQueryExpression
      *
-     * @param PDO $db
      * @param array(string=>string) $aliases
      */
-    public function __construct( PDO $db, array $aliases = array() )
+    public function __construct( PDO $db, array $aliases = [] )
     {
         $this->db = $db;
         if ( !empty( $aliases ) )
@@ -128,8 +120,8 @@ class ezcQueryExpression
      */
     protected function getIdentifier( $alias )
     {
-        $aliasParts = explode( '.', $alias === null ? '' : $alias );
-        $identifiers = array();
+        $aliasParts = explode( '.', $alias ?? '' );
+        $identifiers = [];
         // If the alias consists of one part, then we just look it up in the
         // array. If we find it, we use it, otherwise we return the name as-is
         // and assume it's just a column name. The alias target can be a fully
@@ -157,7 +149,7 @@ class ezcQueryExpression
                 // We only use the found alias if the alias target is not a fully
                 // qualified name (table.column).
                 $tmpAlias = $this->aliases[$aliasParts[$i]];
-                if ( count( explode( '.', $tmpAlias ) ) === 1 )
+                if ( count( explode( '.', (string) $tmpAlias ) ) === 1 )
                 {
                     $aliasParts[$i] = $this->aliases[$aliasParts[$i]];
                 }
@@ -632,18 +624,11 @@ class ezcQueryExpression
         {
             foreach ( $values as $key => $value )
             {
-                switch ( true )
-                {
-                    case $value instanceof ezcQuerySubSelect:
-                        $values[$key] = $value->getQuery();  // fix for PHP 5.1.6 because typecasting to string not working there.
-                        break;
-                    case is_int( $value ):
-                    case is_float( $value ):
-                        $values[$key] = (string) $value;
-                        break;
-                    default:
-                        $values[$key] = $this->db->quote( $value );
-                }
+                $values[$key] = match (true) {
+                    $value instanceof ezcQuerySubSelect => $value->getQuery(),
+                    is_int( $value ), is_float( $value ) => (string) $value,
+                    default => $this->db->quote( $value ),
+                };
             }
         }
 

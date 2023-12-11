@@ -307,16 +307,10 @@ class ezcQueryExpressionOracle extends ezcQueryExpression
         {
             foreach ( $values as $key => $value )
             {
-                switch ( true )
-                {
-                    case is_int( $value ):
-                    case is_float( $value ):
-                    case $value instanceof ezcQuerySubSelect:
-                        $values[$key] = (string) $value;
-                        break;
-                    default:
-                        $values[$key] = $this->db->quote( $value );
-                }
+                $values[$key] = match (true) {
+                    is_int( $value ), is_float( $value ), $value instanceof ezcQuerySubSelect => (string) $value,
+                    default => $this->db->quote( $value ),
+                };
             }
         }
         

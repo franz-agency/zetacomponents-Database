@@ -71,11 +71,7 @@ class ezcDbFactory
      *
      * @var array(string=>string)
      */
-    static private $implementations = array( 'mysql'  => 'ezcDbHandlerMysql',
-                                             'pgsql'  => 'ezcDbHandlerPgsql',
-                                             'oracle' => 'ezcDbHandlerOracle',
-                                             'sqlite' => 'ezcDbHandlerSqlite',
-                                             'mssql' => 'ezcDbHandlerMssql', );
+    static private array $implementations = ['mysql'  => 'ezcDbHandlerMysql', 'pgsql'  => 'ezcDbHandlerPgsql', 'oracle' => 'ezcDbHandlerOracle', 'sqlite' => 'ezcDbHandlerSqlite', 'mssql' => 'ezcDbHandlerMssql'];
 
     /**
      * Adds a database implementation to the list of known implementations.
@@ -116,7 +112,7 @@ class ezcDbFactory
      */
     static public function getImplementations()
     {
-        $list = array();
+        $list = [];
         foreach ( self::$implementations as $name => $className )
         {
             $list[] = $name;
@@ -147,7 +143,7 @@ class ezcDbFactory
      *                 Format of the DSN is the same as accepted by PEAR::DB::parseDSN().
      * @return ezcDbHandler
      */
-    static public function create( $dbParams )
+    static public function create( mixed $dbParams )
     {
         if ( is_string( $dbParams ) )
         {
@@ -162,7 +158,7 @@ class ezcDbFactory
 
         foreach ( $dbParams as $key => $val )
         {
-            if ( in_array( $key, array( 'phptype', 'type', 'handler', 'driver' ) ) )
+            if ( in_array( $key, ['phptype', 'type', 'handler', 'driver'] ) )
             {
                  $impName = $val;
                  break;
@@ -218,17 +214,7 @@ class ezcDbFactory
      */
     public static function parseDSN( $dsn )
     {
-        $parsed = array(
-            'phptype'  => false,
-            'dbsyntax' => false,
-            'username' => false,
-            'password' => false,
-            'protocol' => false,
-            'hostspec' => false,
-            'port'     => false,
-            'socket'   => false,
-            'database' => false,
-        );
+        $parsed = ['phptype'  => false, 'dbsyntax' => false, 'username' => false, 'password' => false, 'protocol' => false, 'hostspec' => false, 'port'     => false, 'socket'   => false, 'database' => false];
 
         if ( is_array( $dsn ) )
         {
@@ -293,19 +279,19 @@ class ezcDbFactory
         {
             // $dsn => proto(proto_opts)/database
             $proto       = $match[1];
-            $proto_opts  = $match[2] ? $match[2] : false;
+            $proto_opts  = $match[2] ?: false;
             $dsn         = $match[3];
         }
         else
         {
             // $dsn => protocol+hostspec/database (old format)
-            if ( strpos( $dsn, '+' ) !== false )
+            if ( str_contains( $dsn, '+' ) )
             {
-                list( $proto, $dsn ) = explode( '+', $dsn, 2 );
+                [$proto, $dsn] = explode( '+', $dsn, 2 );
             }
-            if ( strpos( $dsn, '/' ) !== false )
+            if ( str_contains( $dsn, '/' ) )
             {
-                list( $proto_opts, $dsn ) = explode( '/', $dsn, 2 );
+                [$proto_opts, $dsn] = explode( '/', $dsn, 2 );
             }
             else
             {
@@ -319,9 +305,9 @@ class ezcDbFactory
         $proto_opts = rawurldecode( $proto_opts );
         if ( $parsed['protocol'] == 'tcp' )
         {
-            if ( strpos( $proto_opts, ':' ) !== false )
+            if ( str_contains( $proto_opts, ':' ) )
             {
-                list( $parsed['hostspec'], $parsed['port'] ) = explode( ':', $proto_opts );
+                [$parsed['hostspec'], $parsed['port']] = explode( ':', $proto_opts );
             }
             else
             {
@@ -347,17 +333,17 @@ class ezcDbFactory
                 // /database?param1=value1&param2=value2
                 $parsed['database'] = rawurldecode( substr( $dsn, 0, $pos ) );
                 $dsn = substr( $dsn, $pos + 1 );
-                if ( strpos( $dsn, '&') !== false )
+                if ( str_contains( $dsn, '&') )
                 {
                     $opts = explode( '&', $dsn );
                 }
                 else
                 { // database?param1=value1
-                    $opts = array( $dsn );
+                    $opts = [$dsn];
                 }
                 foreach ( $opts as $opt )
                 {
-                    list( $key, $value ) = explode( '=', $opt );
+                    [$key, $value] = explode( '=', $opt );
                     if ( !isset( $parsed[$key] ) )
                     {
                         // don't allow params overwrite

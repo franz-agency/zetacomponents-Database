@@ -44,7 +44,7 @@
  * @package Database
  * @version //autogentag//
  */
-abstract class ezcQuery
+abstract class ezcQuery implements \Stringable
 {
     /**
      * A pointer to the database handler to use for this query.
@@ -59,14 +59,13 @@ abstract class ezcQuery
      * Format: array('alias' => 'realName')
      * @var array(string=>string)
      */
-    private $aliases = null;
+    private ?array $aliases = null;
 
     /**
      * Counter used to create unique ids in the bind methods.
      *
-     * @var int
      */
-    private $boundCounter = 0;
+    private int $boundCounter = 0;
 
     /**
      * Stores the list of parameters that will be bound with doBind().
@@ -74,14 +73,14 @@ abstract class ezcQuery
      * Format: array( ':name' => &mixed )
      * @var array(string=>&mixed)
      */
-    private $boundParameters = array();
+    private array $boundParameters = [];
 
     /**
      * Stores the type of a value which will we used when the value is bound.
      * 
      * @var array(string=>int)
      */
-    private $boundParametersType = array();
+    private array $boundParametersType = [];
 
     /**
      * Stores the list of values that will be bound with doBind().
@@ -89,14 +88,14 @@ abstract class ezcQuery
      * Format: array( ':name' => mixed )
      * @var array(string=>mixed)
      */
-    private $boundValues = array();
+    private array $boundValues = [];
 
     /**
      * Stores the type of a value which will we used when the value is bound.
      * 
      * @var array(string=>int)
      */
-    private $boundValuesType = array();
+    private array $boundValuesType = [];
 
     /**
      * The expression object for this class.
@@ -115,7 +114,7 @@ abstract class ezcQuery
      * @param PDO $db
      * @param array(string=>string) $aliases
      */
-    public function __construct( PDO $db, array $aliases = array() )
+    public function __construct( PDO $db, array $aliases = [] )
     {
         $this->db = $db;
         if ( $this->expr == null )
@@ -237,7 +236,7 @@ abstract class ezcQuery
     protected function getIdentifier( $alias )
     {
         $aliasParts = explode( '.', $alias );
-        $identifiers = array();
+        $identifiers = [];
         // If the alias consists of one part, then we just look it up in the
         // array. If we find it, we use it, otherwise we return the name as-is
         // and assume it's just a column name. The alias target can be a fully
@@ -266,7 +265,7 @@ abstract class ezcQuery
                 // We only use the found alias if the alias target is not a fully
                 // qualified name (table.column).
                 $tmpAlias = $this->aliases[$aliasParts[$i]];
-                if ( count( explode( '.', $tmpAlias ) ) === 1 )
+                if ( count( explode( '.', (string) $tmpAlias ) ) === 1 )
                 {
                     $aliasParts[$i] = $this->aliases[$aliasParts[$i]];
                 }
@@ -388,8 +387,8 @@ abstract class ezcQuery
     protected function resetBinds()
     {
         $this->boundCounter = 0;
-        $this->boundParameters = array();
-        $this->boundValues = array();
+        $this->boundParameters = [];
+        $this->boundValues = [];
     }
 
     /**
@@ -398,7 +397,6 @@ abstract class ezcQuery
      * This method must be called if you have used the bind methods
      * in your query and you build the method yourself using build.
      *
-     * @param PDOStatement $stmt
      * @return void
      */
     public function doBind( PDOStatement $stmt )
@@ -409,7 +407,7 @@ abstract class ezcQuery
             {
                 $stmt->bindValue( $key, $value, $this->boundValuesType[$key] );
             }
-            catch ( PDOException $e )
+            catch ( PDOException )
             {
                 // see comment below
             }
@@ -420,7 +418,7 @@ abstract class ezcQuery
             {
                 $stmt->bindParam( $key, $value, $this->boundParametersType[$key] );
             }
-            catch ( PDOException $e )
+            catch ( PDOException )
             {
                 // we are ignoring this exception since it may only occur when
                 // a bound parameter is not found in the query anymore.
@@ -455,12 +453,11 @@ abstract class ezcQuery
      * Returns all the elements in $array as one large single dimensional array.
      *
      * @todo public? Currently this is needed for QueryExpression.
-     * @param array $array
      * @return array
      */
     static public function arrayFlatten( array $array )
     {
-        $flat = array();
+        $flat = [];
         foreach ( $array as $arg )
         {
             switch ( gettype( $arg ) )
@@ -494,7 +491,7 @@ abstract class ezcQuery
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getQuery();
     }

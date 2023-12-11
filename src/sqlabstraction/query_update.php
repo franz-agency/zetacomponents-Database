@@ -64,7 +64,7 @@ class ezcQueryUpdate extends ezcQuery
      * Format array('column'=>value)
      * @var array(string=>mixed)
      */
-    private $values = array();
+    private array $values = [];
 
     /**
      * The target table for the update query.
@@ -88,7 +88,7 @@ class ezcQueryUpdate extends ezcQuery
      * @param PDO $db
      * @param array(string=>string) $aliases
      */
-    public function __construct( PDO $db, array $aliases = array() )
+    public function __construct( PDO $db, array $aliases = [] )
     {
         parent::__construct( $db, $aliases );
     }

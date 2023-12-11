@@ -40,21 +40,19 @@ class ezcQuerySelectOracle extends ezcQuerySelect
     /**
      * If a limit and/or offset has been set for this query.
      */
-    private $hasLimit = false;
+    private bool $hasLimit = false;
 
     /**
      * The limit set.
      *
-     * @var int
      */
-    private $limit = 0;
+    private int $limit = 0;
 
     /**
      * The offset set.
      *
-     * @var int
      */
-    private $offset = 0;
+    private int $offset = 0;
 
     /**
      * Constructs a new ezcQueryOracle object working on the database $db.
@@ -187,7 +185,7 @@ class ezcQuerySelectOracle extends ezcQuerySelect
     {
         if ( $this->fromString == null || $this->fromString == '' )
         {
-            $this->from( $this->getDummyTableName() );
+            $this->from( static::getDummyTableName() );
         }
         return parent::prepare();
     }
